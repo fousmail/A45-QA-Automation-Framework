@@ -8,6 +8,7 @@ public class Homework17 extends BaseTest {
 
 
         openLoginUrl();
+
         enterEmail("faiz.ousmail@testpro.io");
         enterPassword("te$t$tudent1");
         clickSubmit();
@@ -17,6 +18,7 @@ public class Homework17 extends BaseTest {
         clickAddToBtn();
         choosePlaylist();
         getNotificationText();
+
         closeBrowser();
 
     }
