@@ -1,16 +1,15 @@
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
 import java.time.Duration;
 
-public class LoginTests extends BaseTest {
+public class LoginTests  {
     @Test
-    public static void LoginEmptyEmailPasswordTest() {
+    public static void LoginValidEmailValidPasswordTest() {
 
-//      Added ChromeOptions argument below to fix websocket error
+ //     Added ChromeOptions argument below to fix websocket error
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
 
@@ -19,7 +18,18 @@ public class LoginTests extends BaseTest {
 
         String url = "https://bbb.testpro.io/";
         driver.get(url);
-        Assert.assertEquals(driver.getCurrentUrl(), url);
+        WebElement emailField = driver.findElement(By.cssSelector("[type='email']"));
+        emailField.click();
+        emailField.clear();
+        emailField.sendKeys("demo@class.com");
+        WebElement passwordField = driver.findElement(By.cssSelector("[type='password']"));
+        passwordField.click();
+        passwordField.clear();
+        passwordField.sendKeys("te$t$tudent");
+        WebElement submitButton = driver.findElement(By.cssSelector("[type='submit']"));
+        submitButton.click();
+        WebElement avatar = driver.findElement(By.cssSelector("[class='avatar']"));
+        Assert.assertTrue(avatar.isDisplayed());
         driver.quit();
     }
 }
