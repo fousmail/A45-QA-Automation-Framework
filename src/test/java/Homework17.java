@@ -5,8 +5,6 @@ public class Homework17 extends BaseTest {
 
     @Test
     public void addSongToPlaylist() throws InterruptedException{
-
-
         openLoginUrl();
         enterEmail("faiz.ousmail@testpro.io");
         enterPassword("te$t$tudent1");
