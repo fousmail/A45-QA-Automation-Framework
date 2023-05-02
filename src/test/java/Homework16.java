@@ -17,10 +17,11 @@ public class Homework16 {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
         options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
-
+        String url = "https://bbb.testpro.io/";
 
         WebDriver driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get(url);
 
 
         WebElement registrationButton = driver.findElement(By.cssSelector("[id='hel']"));

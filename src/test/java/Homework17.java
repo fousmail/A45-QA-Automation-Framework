@@ -1,4 +1,4 @@
-import org.testng.Assert;
+
 import org.testng.annotations.Test;
 
 public class Homework17 extends BaseTest {
@@ -8,7 +8,6 @@ public class Homework17 extends BaseTest {
 
 
         openLoginUrl();
-
         enterEmail("faiz.ousmail@testpro.io");
         enterPassword("te$t$tudent1");
         clickSubmit();
@@ -18,7 +17,6 @@ public class Homework17 extends BaseTest {
         clickAddToBtn();
         choosePlaylist();
         getNotificationText();
-
         closeBrowser();
 
     }
