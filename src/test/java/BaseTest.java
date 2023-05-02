@@ -43,7 +43,18 @@ public class BaseTest {
         driver.get(url);
 
     }
-
+    public void playSong(){
+        WebElement play1Song = driver.findElement(By.xpath("//span[@data-testid='play-btn']"));
+        play1Song.click();
+        WebElement playNextSong = driver.findElement(By.xpath("//i[@data-testid='play-next-btn']"));
+        playNextSong.click();
+        play1Song.click();
+        playNextSong.click();
+    }
+    public boolean isSongPlaying(){
+        WebElement soundBar = driver.findElement(By.xpath("//div[@data-testid='sound-bar-play']"));
+        return soundBar.isDisplayed();
+    }
     public void enterEmail(String email) {
         WebElement emailField = driver.findElement(By.cssSelector("input[type='email']"));
         emailField.click();
@@ -66,11 +77,12 @@ public class BaseTest {
     public void searchSong(String songTitleKeyword) throws InterruptedException {
         WebElement searchField = driver.findElement(By.cssSelector("input[type='search']"));
         searchField.sendKeys(songTitleKeyword);
+
         Thread.sleep(2000);
     }
 
     public void clickViewAllButton() throws InterruptedException {
-        WebElement viewAllSearchResults = driver.findElement(By.cssSelector("div.results section.songs h1 button"));
+        WebElement viewAllSearchResults = driver.findElement(By.cssSelector("div.results h1 > button"));
         viewAllSearchResults.click();
         Thread.sleep(2000);
     }
