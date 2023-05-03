@@ -9,8 +9,5 @@ public class Homework18 extends BaseTest {
         enterAllSongs();
         playSong();
         Assert.assertTrue(isSongPlaying());
-
-
     }
-
 }
