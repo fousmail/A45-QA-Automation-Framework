@@ -42,7 +42,8 @@ public class BaseTest {
         driver.quit();
     }
     public void openAllSongs(){
-        WebElement clickOpenAllsongs = driver.findElement(By.cssSelector("a[href='#!/songs']"));
+        WebElement clickOpenAllSongs = driver.findElement(By.cssSelector("a[href='#!/songs']"));
+        clickOpenAllSongs.click();
     }
     public void playSong(){
         WebElement clickPlaySongBTN = driver.findElement(By.xpath("//span[@data-testid='play-btn']"));
@@ -66,9 +67,7 @@ public class BaseTest {
         WebElement loginButton = driver.findElement(By.cssSelector("[type='submit']"));
         loginButton.click();
     }
-    public void EnterAllSongs(){
-        WebElement allSongs = driver.findElement(By.cssSelector("a[herf='#!/"));
-    }
+
     public void searchSong(String songTitleKeyword) throws InterruptedException {
         WebElement searchField = driver.findElement(By.cssSelector("input[type='search']"));
         searchField.sendKeys(songTitleKeyword);
