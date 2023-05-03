@@ -7,12 +7,7 @@ import org.testng.annotations.Test;
 
         @Test
         public void addSongToPlaylist() throws InterruptedException{
-
-
-            openLoginUrl();
-
-            enterEmail("faiz.ousmail@testpro.io");
-            enterPassword("te$t$tudent1");
+            logIn("faiz.ousmail@testpro.io","te$t$tudent1");
             clickSubmit();
             searchSong("Episode2");
             clickViewAllButton();
