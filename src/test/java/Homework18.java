@@ -7,6 +7,7 @@ public class Homework18 extends BaseTest {
         clickSubmit();
         Thread.sleep(5000);
         enterAllSongs();
+        selectSong();
         playSong();
         Assert.assertTrue(isSongPlaying());
     }

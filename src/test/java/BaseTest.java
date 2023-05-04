@@ -42,10 +42,11 @@ public class BaseTest {
         driver.quit();
     }
     public void playSong(){
-        WebElement play1Song = driver.findElement(By.xpath("//span[@data-testid='play-btn']"));
-        WebElement playNextSong = driver.findElement(By.xpath("//i[@data-testid='play-next-btn']"));
-        play1Song.click();
-        playNextSong.click();
+        WebElement playSongBTN = driver.findElement(By.xpath("//span[@title='Play or resume']"));
+        playSongBTN.click();
+    }
+    public void selectSong(){
+        WebElement song = driver.findElement(By.xpath("//tr[@class='song-item']"));
     }
     public boolean isSongPlaying(){
         WebElement soundBar = driver.findElement(By.xpath("//div[@data-testid='sound-bar-play']"));
@@ -66,7 +67,7 @@ public class BaseTest {
         loginButton.click();
     }
     public void enterAllSongs(){
-        WebElement allSongs = driver.findElement(By.cssSelector("a[href='#!/"));
+        WebElement allSongs = driver.findElement(By.cssSelector("a[href='#!/songs"));
         allSongs.click();
     }
     public void searchSong(String songTitleKeyword) throws InterruptedException {
