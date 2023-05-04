@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import java.time.Duration;
@@ -43,7 +44,8 @@ public class BaseTest {
     }
     public void playSong(){
         WebElement playSongBTN = driver.findElement(By.xpath("//span[@title='Play or resume']"));
-        playSongBTN.click();
+        Actions actions = new Actions(driver);
+        actions.click(playSongBTN).perform();
     }
     public void selectSong(){
         WebElement song = driver.findElement(By.xpath("//tr[@class='song-item']"));
