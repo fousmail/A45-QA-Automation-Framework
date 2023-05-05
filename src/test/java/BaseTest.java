@@ -99,7 +99,7 @@ public class BaseTest {
         Assert.assertEquals(notificationElement.getText(), "Added 1 song into \"TEST.\"");
     }
     public void openPlaylist(){
-        WebElement playList = driver.findElement(By.cssSelector(".playlist:nth-child(4)"));
+        WebElement playList = driver.findElement(By.cssSelector(".playlist:nth-child(3)"));
         playList.click();
     }
     public void clickDeletePlaylistBtn(){
