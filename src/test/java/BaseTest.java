@@ -38,8 +38,6 @@ public class BaseTest {
         wait = new WebDriverWait(driver,Duration.ofSeconds(20));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
-
-
         url = BaseURL;
         driver.get(BaseURL);
     }
@@ -73,36 +71,30 @@ public class BaseTest {
         WebElement loginButton = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[type='submit']"))); //driver.findElement(By.cssSelector("[type='submit']"));
         loginButton.click();
     }
-
     public void searchSong(String songTitleKeyword) {
         WebElement searchField = driver.findElement(By.cssSelector("input[type='search']"));
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input[type='search']"))).click();
         searchField.sendKeys(songTitleKeyword);
-        //Thread.sleep(2000);
     }
     public void clickViewAllButton()  {
         WebElement viewAllSearchResults = driver.findElement(By.cssSelector("div.results h1 > button"));
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("div.results h1 > button")));
         viewAllSearchResults.click();
-
     }
     public void selectFirstSongResult() {
         WebElement firstSongResult = driver.findElement(By.cssSelector("section#songResultsWrapper div.song-list-wrap div.virtual-scroller.scroller div.item-container  table.items tr.song-item td.title"));
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("section#songResultsWrapper div.song-list-wrap div.virtual-scroller.scroller div.item-container  table.items tr.song-item td.title")));
         firstSongResult.click();
-
     }
     public void clickAddToBtn()  {
         WebElement addToBtn = driver.findElement(By.cssSelector("section#songResultsWrapper button.btn-add-to"));
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("section#songResultsWrapper button.btn-add-to")));
         addToBtn.click();
-
     }
     public void choosePlaylist()  {
         WebElement playListElement = driver.findElement(By.xpath("//section[@id='songResultsWrapper']// li[contains(text(),'TEST')]"));
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section[@id='songResultsWrapper']// li[contains(text(),'TEST')]")));
         playListElement.click();
-
     }
     public void getNotificationText() {
         WebElement notificationElement = driver.findElement(By.cssSelector("div.success.show"));
