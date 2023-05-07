@@ -8,7 +8,7 @@ public class Homework20 extends BaseTest{
 
 
         @Test
-        public void deletePlaylist() throws InterruptedException {
+        public void deletePlaylist()  {
             String deletedPlaylistMSG = "Deleted playlist";
             logIn("faiz.ousmail@testpro.io","te$t$tudent1");
             clickSubmit();
