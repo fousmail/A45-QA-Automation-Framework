@@ -42,6 +42,7 @@ public class BaseTest {
         actions = new Actions(driver);
         wait = new WebDriverWait(driver,Duration.ofSeconds(20));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().window().maximize();
 
         url = BaseURL;
         driver.get(BaseURL);
