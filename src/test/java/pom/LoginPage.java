@@ -1,16 +1,13 @@
 package pom;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 
 public class LoginPage extends BasePage{
 
-    By emailField = By.cssSelector("[type='email']");
-    By passwordField = By.cssSelector("[type='password']");
-    By submitButtonLocator  = By.cssSelector("[type='submit']");
+    private By emailField = By.cssSelector("[type='email']");
+    private By passwordField = By.cssSelector("[type='password']");
+    private By submitButtonLocator  = By.cssSelector("[type='submit']");
 
     public LoginPage(WebDriver chromeDriver){
         super(chromeDriver);

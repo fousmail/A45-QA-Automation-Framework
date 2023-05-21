@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 
 public class HomePage extends BasePage {
 
-    By userAvatarIcon = By.cssSelector("img.avatar");
+    private By userAvatarIcon = By.cssSelector("img.avatar");
     public HomePage(WebDriver chromedriver){
         super(chromedriver);
     }
