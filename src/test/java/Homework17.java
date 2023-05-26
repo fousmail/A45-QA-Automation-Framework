@@ -1,12 +1,9 @@
 import org.testng.annotations.Test;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
     public class Homework17 extends BaseTest {
 
         @Test
-        public void addSongToPlaylist() throws InterruptedException{
+        public void addSongToPlaylist(){
             logIn("faiz.ousmail@testpro.io","te$t$tudent1");
             clickSubmit();
             searchSong("Episode2");
@@ -15,7 +12,6 @@ import org.testng.annotations.Test;
             clickAddToBtn();
             choosePlaylist();
             getNotificationText();
-
             closeBrowser();
 
         }
