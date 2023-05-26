@@ -45,7 +45,7 @@ public class BaseTest {
         driver.manage().window().maximize();
 
         url = BaseURL;
-        driver.get(BaseURL);
+        driver.get(url);
     }
     @AfterMethod
     public void closeBrowser() {

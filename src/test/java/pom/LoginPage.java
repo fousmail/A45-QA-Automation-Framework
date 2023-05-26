@@ -9,18 +9,22 @@ public class LoginPage extends BasePage{
     private By passwordField = By.cssSelector("[type='password']");
     private By submitButtonLocator  = By.cssSelector("[type='submit']");
 
-    public LoginPage(WebDriver chromeDriver){
-        super(chromeDriver);
+    public LoginPage(WebDriver givenDriver){
+        super(givenDriver);
 
     }
-    public void provideEmail(String email){
+    public LoginPage provideEmail(String email){
         driver.findElement(emailField).sendKeys(email);
+        return this;
     }
-    public  void providePassword(String password){
+    public  LoginPage providePassword(String password){
         driver.findElement(passwordField).sendKeys(password);
+        return this;
+
     }
-    public void clickSubmitBtn(){
+    public LoginPage clickSubmitBtn(){
         driver.findElement(submitButtonLocator).click();
+        return this;
     }
     public void login(){
         provideEmail("faiz.ousmail@testpro.io");
