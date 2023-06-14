@@ -4,15 +4,27 @@ import pom.HomePage;
 import pom.LoginPage;
 import java.time.Duration;
 
+
 public class LoginTests extends BaseTest {
-    @Test
-    public static void LoginValidEmailPasswordTest() {
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        LoginPage loginPage = new LoginPage(driver);
-        HomePage homePage = new HomePage(driver);
-   //     loginPage.login();
-     loginPage.provideEmail("faiz.ousmail@testpro.io").providePassword("te$t$tudent1").clickSubmitBtn();
-//
+
+
+    @Test(dataProvider = "InvalidLoginCredentials",dataProviderClass = BaseTest.class,enabled = true,priority = 0, description = "Login with invalid email and password")
+    public void LoginInvalidEmailPasswordTest(String email,String password){
+
+//       driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        LoginPage loginPage = new LoginPage(getDriver());
+        String url = "https://qa.koel.app/";
+        loginPage.provideEmail(email).providePassword(password).clickSubmitBtn();
+        Assert.assertEquals(getDriver().getCurrentUrl(),url);
+
+    }
+
+    @Test(enabled = true,priority = 1,description = "Login with valid email and valid password")
+    public  void LoginValidEmailPasswordTest() {
+        LoginPage loginPage = new LoginPage(getDriver());
+        HomePage homePage = new HomePage(getDriver());
+        //     loginPage.login();
+        loginPage.provideEmail("faiz.ousmail@testpro.io").providePassword("te$t$tudent1").clickSubmitBtn();
         Assert.assertTrue(homePage.getUserAvatar().isDisplayed());
     }
 

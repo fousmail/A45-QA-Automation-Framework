@@ -17,14 +17,19 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.time.Duration;
+import java.util.HashMap;
+
+import static java.sql.DriverManager.getDriver;
 
 public class BaseTest {
     static WebDriverWait wait;
     String url = "";
-    public static WebDriver driver = null;
+    static WebDriver driver ;
     public static Actions actions = null;
     String newPlaylistName = "Updated playlist";
+    ThreadLocal<WebDriver> threadDriver;
 
     @BeforeSuite
     static void setupClass() {
@@ -41,29 +46,39 @@ public class BaseTest {
     }
     @BeforeMethod
     @Parameters({"BaseURL"})
-    public void openLoginUrl(String BaseURL) throws MalformedURLException {
+    public void launchBrowser(String BaseURL) throws MalformedURLException {
 
 //        ChromeOptions options = new ChromeOptions();
 //        options.addArguments("--disable-notifications","--remote-allow-origins=*", "--incognito","--start-maximized");
 //        options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
 //        driver = new FirefoxDriver();
+        threadDriver = new ThreadLocal<>();
         driver = pickBrowser(System.getProperty("browser"));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        wait = new WebDriverWait(driver,Duration.ofSeconds(10));
-        actions = new Actions(driver);
+        threadDriver.set(driver);
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        wait = new WebDriverWait(getDriver(),Duration.ofSeconds(10));
+        actions = new Actions(getDriver());
         driver.manage().window().maximize();
         url = BaseURL;
         navigateToPage();
     }
-    public void navigateToPage(){driver.get(url);}
+
+
+
+    public void navigateToPage(){getDriver().get(url);}
 
     @AfterMethod
     public void closeBrowser() {
         driver.quit();
+//        getDriver().quit();
+        threadDriver.remove();
+    }
+    public WebDriver getDriver() {
+        return threadDriver.get();
     }
     public static WebDriver pickBrowser(String browser) throws MalformedURLException {
         DesiredCapabilities caps = new DesiredCapabilities();
-        String gridURL = "http://10.10.10.26:4444";
+        String gridURL = "http://192.168.86.102:4444";
         switch (browser) {
             case "firefox" -> {
                 WebDriverManager.firefoxdriver().setup();
@@ -88,6 +103,9 @@ public class BaseTest {
                 caps.setCapability("browserName", "chrome");
                 return driver = new RemoteWebDriver(URI.create(gridURL).toURL(), caps);
             }
+            case "lambda" -> {
+                return lambdaTest();
+            }
             default -> {
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions options = new ChromeOptions();
@@ -97,24 +115,45 @@ public class BaseTest {
             }
         }
     }
+
+    //
+
+    public static WebDriver lambdaTest() throws MalformedURLException {
+        String username = "faiz.ousmail";
+        String accessToken = "3WtNG6vLGJdOmex6MtmkCYyjdLB7vOQvAhBd58p3fDVtwx3uPS";
+        String hubURL = "https://hub.lambdatest.com/wd/hub";
+        ChromeOptions browserOptions = new ChromeOptions();
+        browserOptions.setPlatformName("Windows 10");
+        browserOptions.setBrowserVersion("114.0");
+        HashMap<String, Object> ltOptions = new HashMap<String, Object>();
+        ltOptions.put("username", username);
+        ltOptions.put("accessKey", accessToken);
+        ltOptions.put("project", "Untitled");
+        ltOptions.put("w3c", true);
+        ltOptions.put("plugin", "java-testNG");
+        browserOptions.setCapability("LT:Options", ltOptions);
+        return new RemoteWebDriver(new URL(hubURL), browserOptions);
+
+    }
+
     public void openAllSongs(){
-        WebElement clickOpenAllSongs = driver.findElement(By.cssSelector("a[href='#!/songs']"));
+        WebElement clickOpenAllSongs = getDriver().findElement(By.cssSelector("a[href='#!/songs']"));
         clickOpenAllSongs.click();
     }
     public void playSong(){
-        WebElement clickPlaySongBTN = driver.findElement(By.xpath("//span[@data-testid='play-btn']"));
+        WebElement clickPlaySongBTN = getDriver().findElement(By.xpath("//span[@data-testid='play-btn']"));
         clickPlaySongBTN.click();
     }
     public boolean isSongPlaying(){
-        WebElement soundBar = driver.findElement(By.xpath("//div[@data-testid='sound-bar-play']"));
+        WebElement soundBar = getDriver().findElement(By.xpath("//div[@data-testid='sound-bar-play']"));
         return soundBar.isDisplayed();
     }
     public void logIn(String email, String password) {
-        WebElement emailField = driver.findElement(By.cssSelector("input[type='email']"));
+        WebElement emailField = getDriver().findElement(By.cssSelector("input[type='email']"));
         wait.until(ExpectedConditions.elementToBeClickable((By.cssSelector("input[type='email']")))).click();
         emailField.clear();
         emailField.sendKeys(email);
-        WebElement passwordField = driver.findElement(By.cssSelector("input[type='password']"));
+        WebElement passwordField = getDriver().findElement(By.cssSelector("input[type='password']"));
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input[type='password']"))).click();
         passwordField.clear();
         passwordField.sendKeys(password);
@@ -124,44 +163,44 @@ public class BaseTest {
         loginButton.click();
     }
     public void searchSong(String songTitleKeyword) {
-        WebElement searchField = driver.findElement(By.cssSelector("input[type='search']"));
+        WebElement searchField = getDriver().findElement(By.cssSelector("input[type='search']"));
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input[type='search']"))).click();
         searchField.sendKeys(songTitleKeyword);
     }
     public void clickViewAllButton()  {
-        WebElement viewAllSearchResults = driver.findElement(By.cssSelector("div.results h1 > button"));
+        WebElement viewAllSearchResults = getDriver().findElement(By.cssSelector("div.results h1 > button"));
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("div.results h1 > button")));
         viewAllSearchResults.click();
     }
     public void selectFirstSongResult() {
-        WebElement firstSongResult = driver.findElement(By.cssSelector("section#songResultsWrapper div.song-list-wrap div.virtual-scroller.scroller div.item-container  table.items tr.song-item td.title"));
+        WebElement firstSongResult = getDriver().findElement(By.cssSelector("section#songResultsWrapper div.song-list-wrap div.virtual-scroller.scroller div.item-container  table.items tr.song-item td.title"));
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("section#songResultsWrapper div.song-list-wrap div.virtual-scroller.scroller div.item-container  table.items tr.song-item td.title")));
         firstSongResult.click();
     }
     public void clickAddToBtn()  {
-        WebElement addToBtn = driver.findElement(By.cssSelector("section#songResultsWrapper button.btn-add-to"));
+        WebElement addToBtn = getDriver().findElement(By.cssSelector("section#songResultsWrapper button.btn-add-to"));
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("section#songResultsWrapper button.btn-add-to")));
         addToBtn.click();
     }
     public void choosePlaylist()  {
-        WebElement playListElement = driver.findElement(By.xpath("//section[@id='songResultsWrapper']// li[contains(text(),'TEST')]"));
+        WebElement playListElement = getDriver().findElement(By.xpath("//section[@id='songResultsWrapper']// li[contains(text(),'TEST')]"));
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section[@id='songResultsWrapper']// li[contains(text(),'TEST')]")));
         playListElement.click();
     }
     public void getNotificationText() {
-        WebElement notificationElement = driver.findElement(By.cssSelector("div.success.show"));
+        WebElement notificationElement = getDriver().findElement(By.cssSelector("div.success.show"));
         Assert.assertEquals(notificationElement.getText(), "Added 1 song into \"TEST.\"");
     }
     public void openPlaylist(){
-        WebElement playList = driver.findElement(By.cssSelector(".playlist:nth-child(3)"));
+        WebElement playList = getDriver().findElement(By.cssSelector(".playlist:nth-child(3)"));
         playList.click();
     }
     public void clickDeletePlaylistBtn(){
-        WebElement deleteBTN = driver.findElement(By.xpath("//button[@class='del btn-delete-playlist']"));
+        WebElement deleteBTN = getDriver().findElement(By.xpath("//button[@class='del btn-delete-playlist']"));
         deleteBTN.click();
     }
     public String getDeletedPlaylistMSG(){
-        WebElement deletionMSG = driver.findElement(By.cssSelector("div.success.show"));
+        WebElement deletionMSG = getDriver().findElement(By.cssSelector("div.success.show"));
         return deletionMSG.getText();
     }
 

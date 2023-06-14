@@ -14,10 +14,14 @@ public class LoginPage extends BasePage{
 
     }
     public LoginPage provideEmail(String email){
+        driver.findElement(emailField).click();
+        driver.findElement(emailField).clear();
         driver.findElement(emailField).sendKeys(email);
         return this;
     }
     public  LoginPage providePassword(String password){
+        driver.findElement(passwordField).click();
+        driver.findElement(passwordField).clear();
         driver.findElement(passwordField).sendKeys(password);
         return this;
 

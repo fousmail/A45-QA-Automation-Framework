@@ -22,12 +22,12 @@ public class Homework16 extends BaseTest {
         WebDriver driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
-        String url = "https://bbb.testpro.io/";
+        String url = "https://qa.koel.app/";
         driver.get(url);
 
         WebElement registrationButton = driver.findElement(By.cssSelector("[id='hel']"));
         registrationButton.click();
-        String registrationUrl = "https://bbb.testpro.io/registration.php";
+        String registrationUrl = "https://qa.koel.app/registration.php";
         Assert.assertEquals(driver.getCurrentUrl(), registrationUrl);
         driver.quit();
 
