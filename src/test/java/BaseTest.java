@@ -22,13 +22,13 @@ import java.time.Duration;
 import java.util.HashMap;
 
 public class BaseTest {
-    static WebDriverWait wait;
+    WebDriverWait wait;
     String url = "";
-    static WebDriver driver ;
-    public static Actions actions = null;
+    WebDriver driver ;
+    Actions actions = null;
     String newPlaylistName = "Updated playlist";
-    ThreadLocal<WebDriver> threadDriver;
-
+    static ThreadLocal<WebDriver> threadDriver = new ThreadLocal<>();
+        // added static keyword which will allow storing and retrieving the instance for each thread.
     @BeforeSuite
     static void setupClass() {
 //        WebDriverManager.chromedriver().setup();
@@ -49,16 +49,12 @@ public class BaseTest {
     @Parameters({"BaseURL"})
     public void launchBrowser(String BaseURL) throws MalformedURLException {
 
-//        ChromeOptions options = new ChromeOptions();
-//        options.addArguments("--disable-notifications","--remote-allow-origins=*", "--incognito","--start-maximized");
-//        options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
-//        driver = new FirefoxDriver();
-        threadDriver = new ThreadLocal<>();
-        driver = pickBrowser(System.getProperty("browser"));
-        threadDriver.set(driver);
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        threadDriver.set(pickBrowser(System.getProperty("browser")));
+
         wait = new WebDriverWait(getDriver(),Duration.ofSeconds(10));
         actions = new Actions(getDriver());
+
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         getDriver().manage().window().maximize();
         url = BaseURL;
         navigateToPage();
@@ -75,10 +71,11 @@ public class BaseTest {
           threadDriver.remove();
 
    }
-    public WebDriver getDriver() {
+    public static WebDriver getDriver() {
         return threadDriver.get();
     }
-    public static WebDriver pickBrowser(String browser) throws MalformedURLException {
+    // This getDriver() method returns the current instance of WebDriver associated with the current thread.
+    public WebDriver pickBrowser(String browser) throws MalformedURLException {
         DesiredCapabilities caps = new DesiredCapabilities();
         String gridURL = "http://192.168.86.102:4444";
         switch (browser) {
