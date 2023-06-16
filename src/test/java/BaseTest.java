@@ -21,8 +21,6 @@ import java.net.URL;
 import java.time.Duration;
 import java.util.HashMap;
 
-import static java.sql.DriverManager.getDriver;
-
 public class BaseTest {
     static WebDriverWait wait;
     String url = "";
@@ -40,7 +38,10 @@ public class BaseTest {
     public static Object[][] getDataFromDataProvider(){
         return new Object[][]{
                 {"Invalid@mail.com","InvalidPassword"},
+                {"demo@class.com","InvalidPassword"},
+                {"Invalid@mail.com","te$t$tudent"},
                 {"demo@class.com",""},
+                {"","te$t$tudent"},
                 {"",""}
         };
     }
@@ -58,7 +59,7 @@ public class BaseTest {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         wait = new WebDriverWait(getDriver(),Duration.ofSeconds(10));
         actions = new Actions(getDriver());
-        driver.manage().window().maximize();
+        getDriver().manage().window().maximize();
         url = BaseURL;
         navigateToPage();
     }
@@ -69,10 +70,11 @@ public class BaseTest {
 
     @AfterMethod
     public void closeBrowser() {
-        driver.quit();
-//        getDriver().quit();
-        threadDriver.remove();
-    }
+//          getDriver().quit();
+          threadDriver.get().close();
+          threadDriver.remove();
+
+   }
     public WebDriver getDriver() {
         return threadDriver.get();
     }
@@ -115,8 +117,6 @@ public class BaseTest {
             }
         }
     }
-
-    //
 
     public static WebDriver lambdaTest() throws MalformedURLException {
         String username = "faiz.ousmail";
