@@ -77,7 +77,7 @@ public class BaseTest {
     // This getDriver() method returns the current instance of WebDriver associated with the current thread.
     public WebDriver pickBrowser(String browser) throws MalformedURLException {
         DesiredCapabilities caps = new DesiredCapabilities();
-        String gridURL = "http://192.168.86.102:4444";
+        String gridURL = "http://192.168.86.225:4444/";
         switch (browser) {
             case "firefox" -> {
                 WebDriverManager.firefoxdriver().setup();
