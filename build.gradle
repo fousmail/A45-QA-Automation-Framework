@@ -34,7 +34,7 @@ tasks.register('testSmoke', Test) {
     }
 
 }
-task testRegression(type: Test){
+tasks.register('testRegression', Test) {
     useTestNG() {
         suites "src/test/resources/Regression.xml"
         systemProperty "browser", System.getProperty("browser")
