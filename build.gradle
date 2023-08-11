@@ -13,10 +13,31 @@ dependencies {
     testImplementation 'org.testng:testng:7.7.0'
     implementation 'org.seleniumhq.selenium:selenium-java:4.8.1'
     testImplementation 'io.github.bonigarcia:webdrivermanager:5.3.2'
+    implementation'com.opencsv:opencsv:5.7.1'
+    implementation'io.cucumber:cucumber-testng:7.9.0'
+    implementation 'io.cucumber:cucumber-core:7.9.0'
+    implementation'io.cucumber:cucumber-java:7.9.0'
+    implementation'io.cucumber:gherkin:7.9.0'
 }
 
 test {
     useTestNG() {
         suites "src/test/resources/TestNG.xml"
+        systemProperty "browser", System.getProperty("browser")
     }
+
+}
+tasks.register('testSmoke', Test) {
+    useTestNG() {
+        suites "src/test/resources/Smoke.xml"
+        systemProperty "browser", System.getProperty("browser")
+    }
+
+}
+tasks.register('testRegression', Test) {
+    useTestNG() {
+        suites "src/test/resources/Regression.xml"
+        systemProperty "browser", System.getProperty("browser")
+    }
+
 }
